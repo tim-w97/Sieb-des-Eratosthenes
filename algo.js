@@ -6,7 +6,7 @@ function start() {
 
     let currentDivider = 2
 
-    let currentDividerChanged = true
+    let numberWasCrossedOut = true
 
     if(numberRows.hasChildNodes()) {
         numberRows.innerHTML = ""
@@ -17,29 +17,29 @@ function start() {
         numbers.push(i)
     }
 
-    // Zeige den Initialzustand des Arrays auf dem Bildschirm
-    printNumbersToScreen()
+    while(numberWasCrossedOut) {
+        // Zeige jede Iteration auf dem Bildschirm
+        printNumbersToScreen()
 
-    while(currentDividerChanged) {
+        numberWasCrossedOut = false
+
+        let currentDividerHasChanged = false
+
         // Streiche alle Vielfachen von „currentDivider“ heraus (Setze sie auf 0)
         for (let i = 0; i < numbers.length; i++) {
             if (numbers[i] % currentDivider == 0 && numbers[i] - currentDivider > 0) {
                 numbers[i] = 0
+                numberWasCrossedOut = true
             }
         }
-
-        currentDividerChanged = false
 
         // Finde die nächstgrößere nicht gestrichene Zahl und weise sie „currentDivider“ zu
-        for (let i = 0; !currentDividerChanged && i < numbers.length; i++) {
+        for (let i = 0; !currentDividerHasChanged && i < numbers.length; i++) {
             if (numbers[i] != 0 && numbers[i] > currentDivider) {
                 currentDivider = numbers[i]
-                currentDividerChanged = true
+                currentDividerHasChanged = true
             }
         }
-
-        // Zeige jede Iteration auf dem Bildschirm
-        printNumbersToScreen()
     }
 
     function printNumbersToScreen() {
